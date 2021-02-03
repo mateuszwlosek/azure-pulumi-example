@@ -56,18 +56,17 @@ Go to environments and create a new one
 Go to `Pipelines` and create a new one.  
 Select `Azure Repos Git` and repository created before as the place with your code. 
 
-**Pipeline to build, push docker image and perform rolling update of demo application **  
+**Pipeline to build, push docker image and perform rolling update of demo application**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
 
 Variables:  
 
-Name: docker_registry_repository 
-Description: Docker registry repository path, generated while creating a kubernetes cluster
-My value: mateuszwlosektestregistry
+Name: docker_registry_repository  
+Description: Docker registry repository path, generated while creating a kubernetes cluster  
+My value: mateuszwlosektestregistry  
 
-XXX Always demo
-Name: deployment_name
-Description: Kubernetes cluster name  
+Name: image_name
+Description: Docker image name. You can type anything 
 My value: test-cluster  
 
 Name: docker_registry_connection
@@ -91,7 +90,8 @@ Description: Namespace name (Have to be the same as in variables given above)
 My value: demo-namespace  
 
 Save changes (Don't execute pipeline from here as it will not be possible to select required parameters.  
-Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.  
+Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`. 
+Rename the pipeline to: Build image, Deploy image, Perform rolling update
 
 **Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
@@ -107,19 +107,19 @@ Description: Kubernetes cluster name
 My value: test-cluster  
 
 Name: mongodb_database  
-Description: Mongodb database name (you can type anything)  
+Description: Mongodb database name. You can type anything  
 My value: master  
 
 Name: mongodb_username  
-Description: Mongodb username (you can type anything)  
+Description: Mongodb username. You can type anything   
 My value: test  
 
 Name: mongodb_password  
-Description: Mongodb password (you can type anything)  
+Description: Mongodb password. You can type anything   
 My value: test  
 
 Name: namespace_name  
-Description: Namespace name (you can type anything)  
+Description: Namespace name. You can type anything  
 My value: demo-namespace  
 
 Name: pip_requirements_path  
@@ -139,7 +139,7 @@ Description: Directory with pulumi files. Type the same value as I
 My value: pulumi/basic/  
 
 Name: pulumi_stack  
-Description: Pulumi stack name (you can type anything)  
+Description: Pulumi stack name. You can type anything  
 My value: demo-stack  
 
 Name: resources_group_name  
@@ -148,6 +148,7 @@ My value: test-resource-group
 
 ![image](https://user-images.githubusercontent.com/15820051/106803735-cd2d6880-6664-11eb-8a6e-5b5fc1164bba.png)  
 Save changes and run the pipeline.
+Rename the pipeline to: Pulumi basic infrastructure up
 
 **Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
@@ -211,7 +212,7 @@ Description: Directory with pulumi files. Type the same value as I
 My value: pulumi/demo-app/  
 
 Name: pulumi_stack  
-Description: Pulumi stack name (you can type anything)  
+Description: Pulumi stack name. You can type anything   
 My value: demo-stack  
 
 Name: resources_group_name  
@@ -219,6 +220,7 @@ Description: Resources group name. Generated when kubernetes cluster was created
 My value: test-resource-group  
 
 Save changes and run the pipeline.
+Rename the pipeline to: Pulumi demo app up
 
 You can check the environment now in Azure UI or in CLI.
 
