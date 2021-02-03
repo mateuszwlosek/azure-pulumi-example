@@ -47,55 +47,50 @@ In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` sel
 Now configure Variables  
 ![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
 
-Name: azure_subscription
-Description: XXX
-My value: azure-service-connection
+Name: azure_subscription  
+Description: XXX  
+My value: azure-service-connection  
 
-Name: cluster_name
-Description: Kubernetes cluster name
-My value: cluster-test
+Name: cluster_name  
+Description: Kubernetes cluster name  
+My value: test-cluster  
 
-DELETE
-Name: docker_registry_repository
-Description: docker registry url/image name (As Image name you can type anything)
-My value: YYY
+Name: mongodb_database  
+Description: Mongodb database name (you can type anything)  
+My value: master  
 
-Name: mongodb_database
-Description: Mongodb database name (you can type anything)
-My value: master
+Name: mongodb_username  
+Description: Mongodb username (you can type anything)  
+My value: test  
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
-My value: test
+Name: mongodb_password  
+Description: Mongodb password (you can type anything)  
+My value: test  
 
-Name: mongodb_password
-Description: Mongodb password (you can type anything)
-My value: test
+Name: namespace_name  
+Description: Namespace name (you can type anything)  
+My value: demo-namespace  
 
-Name: namespace_name
-Description: Namespace name (you can type anything)
-My value: demo-namespace
+Name: pip_requirements_path  
+Description: Path to requirements for pip. Type the same value as I.  
+My value: pulumi/basic/requirements  
 
-Name: pip_requirements_path
-Description: Path to requirements for pip. Type the same value as I.
-My value: pulumi/basic/requirements
+Name: PULUMI_ACCESS_TOKEN  
+Description: Pulumi token, generated after in Pulumi settings  
+My value: pul-(... I won't share pulumi token)   
 
-Name: PULUMI_ACCESS_TOKEN
-Description: Pulumi token, generated after in Pulumi settings
-My value: pul-(... I won't share pulumi token) 
+Name: pulumi.access.token  
+Description: Same token as in the variable above (yes, two env variables are needed. I explained it above)  
+My value: pul-(... I won't share pulumi token)   
 
-Name: pulumi.access.token
-Description: Same token as in the variable above (yes, two env variables are needed. I explained it above)
-My value: pul-(... I won't share pulumi token) 
+Name: pulumi_directory  
+Description: Directory with pulumi files. Type the same value as I  
+My value: pulumi/basic/  
 
-Name: pulumi_directory
-Description: Directory with pulumi files. Type the same value as I
-My value: pulumi/basic/
+Name: pulumi_stack  
+Description: Pulumi stack name (you can type anything)  
+My value: demo-stack  
 
-Name: pulumi_stack
-Description: Pulumi stack name (you can type anything)
-My value: demo-stack
-
-Name: resources_group_name
-Description: Resources group name. Generated when kubernetes cluster was created.
-My value: test-resource-group
+Name: resources_group_name  
+Description: Resources group name. Generated when kubernetes cluster was created.  
+My value: test-resource-group  
