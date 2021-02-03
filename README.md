@@ -42,7 +42,7 @@ Go to `Project settings`
 Go to `Pipelines` and create a new one.  
 Select `Azure Repos Git` and repository created before as the place with your code. 
 
-**Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**
+**Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
 Now configure Variables  
 ![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
@@ -94,3 +94,6 @@ My value: demo-stack
 Name: resources_group_name  
 Description: Resources group name. Generated when kubernetes cluster was created.  
 My value: test-resource-group  
+
+![image](https://user-images.githubusercontent.com/15820051/106803735-cd2d6880-6664-11eb-8a6e-5b5fc1164bba.png)  
+Save changes and run the pipeline
