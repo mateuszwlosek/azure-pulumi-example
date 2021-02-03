@@ -1,0 +1,4 @@
+name: demo-app
+description: Demo Pulumi app
+runtime:
+  name: python

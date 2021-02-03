@@ -1,0 +1,4 @@
+name: demo-basic
+description: Demo Pulumi Basic infrastructure
+runtime:
+  name: python

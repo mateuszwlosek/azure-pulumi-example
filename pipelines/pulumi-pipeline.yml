@@ -1,0 +1,42 @@
+trigger:
+ - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  displayName: Set python version
+  inputs:
+    versionSpec: '3.6'
+
+- script: 'pip install -r $(pip_requirements_path)'
+  displayName: Install required packages
+
+- script: 'curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh'
+  displayName: 'Install helm'
+
+- script: 'curl -fsSL https://get.pulumi.com | sh'
+  displayName: 'Installing pulumi'
+
+- script: 'pulumi login'
+  displayName: 'Authenticating pulimi'
+
+  # Used || true to ignore error in case stack already exists
+- script: 'pulumi stack init $(pulumi_stack) --cwd $(pulumi_directory) || true'
+  displayName: 'Creating pulumi stack if doesn't exist'
+
+- task: AzureCLI@1
+  displayName: Login to Azure cluster
+  inputs:
+    azureSubscription: $(azure_subscription)
+    scriptLocation: 'inlineScript'
+    inlineScript: 'az aks get-credentials -g $(resources_group_name) -n $(cluster_name)'
+
+- task: Pulumi@1
+  displayName: 'Pulumi up'
+  inputs:
+    command: 'up'
+    args: '-r -y'
+    cwd: $(pulumi_directory)
+    stack: $(pulumi_stack)
