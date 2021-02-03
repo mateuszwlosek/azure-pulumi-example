@@ -232,4 +232,10 @@ Describe a resource: `kubectl describe deployment mongodb`
 Check pod logs: `kubectl get logs mongodb-7c9986b5c-26bdv -f` (Replace with your pod name)  
 Check yaml of a resource: `kubectl get deployment mongodb -o yaml`  
 
+Test demo application:
+Get external IP: `kubectl get services`, get external IP from `nginx-ingress-ingress-nginx-controller`.
+Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)
+Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)
+Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one)
+
 
