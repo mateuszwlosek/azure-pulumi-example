@@ -21,10 +21,12 @@ steps:
 
 - script: 'pulumi login'
   displayName: 'Authenticating pulimi'
+  env:
+    PULUMI_ACCESS_TOKEN: $(PULUMI_ACCESS_TOKEN)
 
-  # Used || true to ignore error in case stack already exists
+# Used || true to ignore error in case stack already exists
 - script: 'pulumi stack init $(pulumi_stack) --cwd $(pulumi_directory) || true'
-  displayName: 'Creating pulumi stack if doesn't exist'
+  displayName: 'Creating pulumi stack if does not exist'
 
 - task: AzureCLI@1
   displayName: Login to Azure cluster
