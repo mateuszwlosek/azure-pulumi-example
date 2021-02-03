@@ -10,6 +10,11 @@ Go to `Subscriptions`
 ![Screenshot_20210203_194509](https://user-images.githubusercontent.com/15820051/106794511-3c9d5b00-6659-11eb-9aa3-88335a4f459d.png)  
 and add a new one, then select `Free Trial` offer and fill data as requested. 
 
+### Pulumi
+[Create a pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
+In settings generate new access token and save it somewhere  
+![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)
+
 ### Setup Kubernetes cluster
 Go to `Kubernetes services` and add a new Kubernetes cluser.  
 While creating the cluster, add a new resource group while clicking `Create new`.  
@@ -44,15 +49,11 @@ Now configure Variables
 
 Name: azure_subscription
 Description: XXX
-My value: YYY
+My value: azure-service-connection
 
 Name: cluster_name
 Description: Kubernetes cluster name
 My value: cluster-test
-
-Name: azure_subscription
-Description: XXX
-My value: YYY
 
 DELETE
 Name: docker_registry_repository
@@ -67,26 +68,34 @@ Name: mongodb_username
 Description: Mongodb username (you can type anything)
 My value: test
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
+Name: mongodb_password
+Description: Mongodb password (you can type anything)
 My value: test
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
-My value: test
+Name: namespace_name
+Description: Namespace name (you can type anything)
+My value: demo-namespace
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
-My value: test
+Name: pip_requirements_path
+Description: Path to requirements for pip. Type the same value as I.
+My value: pulumi/basic/requirements
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
-My value: test
+Name: PULUMI_ACCESS_TOKEN
+Description: Pulumi token, generated after in Pulumi settings
+My value: pul-(... I won't share pulumi token) 
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
-My value: test
+Name: pulumi.access.token
+Description: Same token as in the variable above (yes, two env variables are needed. I explained it above)
+My value: pul-(... I won't share pulumi token) 
 
-Name: mongodb_username
-Description: Mongodb username (you can type anything)
-My value: test
+Name: pulumi_directory
+Description: Directory with pulumi files. Type the same value as I
+My value: pulumi/basic/
+
+Name: pulumi_stack
+Description: Pulumi stack name (you can type anything)
+My value: demo-stack
+
+Name: resources_group_name
+Description: Resources group name. Generated when kubernetes cluster was created.
+My value: test-resource-group
