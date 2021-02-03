@@ -110,3 +110,13 @@ My value: test-resource-group
 
 ![image](https://user-images.githubusercontent.com/15820051/106803735-cd2d6880-6664-11eb-8a6e-5b5fc1164bba.png)  
 Save changes and run the pipeline
+
+You can check the environment now in Azure UI or in CLI:  
+Switch kubernetes namespace: `kubectl config set-context --current --namespace=demo-namespace` (Replace `demo-namespace` with your namespace, set in environment variables above)  
+Check kubernetes deployments: `kubectl get deployment`  
+Check kubernetes pods: `kubectl get pods`  
+Check kubernetes services: `kubectl get services`  
+Describe a resource: `kubectl describe deployment mongodb`  
+Check pod logs: `kubectl get logs mongodb-7c9986b5c-26bdv -f` (Replace with your pod name)  
+Check yaml of a resource: `kubectl get deployment mongodb -o yaml`  
+
