@@ -46,13 +46,13 @@ Clone the repository locally, copy files from my repository and push those files
 ![image](https://user-images.githubusercontent.com/15820051/106797815-6789ae00-665d-11eb-987b-4ebf65f1dc31.png)  
 Go to `Project settings`  
 ![image](https://user-images.githubusercontent.com/15820051/106797943-92740200-665d-11eb-980e-36ccba314a37.png)  
-`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections  
-![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)  
-![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)  
-Go to environments and create a new one
-![image](https://user-images.githubusercontent.com/15820051/106809473-03221b00-666c-11eb-8134-509d2829f778.png)
-![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)
-![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)
+`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections   
+![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)   
+![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)   
+Go to environments and create a new one  
+![image](https://user-images.githubusercontent.com/15820051/106809473-03221b00-666c-11eb-8134-509d2829f778.png)   
+![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)   
+![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)   
 
 
 #### Pipelines
@@ -232,10 +232,10 @@ Describe a resource: `kubectl describe deployment mongodb`
 Check pod logs: `kubectl get logs mongodb-7c9986b5c-26bdv -f` (Replace with your pod name)  
 Check yaml of a resource: `kubectl get deployment mongodb -o yaml`  
 
-Test demo application:
-Get external IP: `kubectl get services`, get external IP from `nginx-ingress-ingress-nginx-controller`.
-Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)
-Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)
-Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one)
+Test demo application:  
+Get external IP: `kubectl get services`, get external IP from `nginx-ingress-ingress-nginx-controller`.  
+Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)  
+Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)  
+Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one)  
 
 
