@@ -17,7 +17,6 @@ namespace = Namespace(
   )
 )
 
-
 ingress_service = Chart(
   'nginx-ingress',
   config = ChartOpts(

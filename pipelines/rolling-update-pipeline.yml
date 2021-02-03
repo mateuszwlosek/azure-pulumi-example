@@ -7,7 +7,7 @@ resources:
 - repo: self
 
 variables:
-  dockerRegistryServiceConnection: '$(docker_registry_service_connection)'
+  # dockerRegistryServiceConnection: '$(docker_registry_connection)'
   imageRepository: '$(image_repository)'
   containerRegistry: '$(container_registry)'
   dockerfilePath: '**/Dockerfile'
@@ -31,7 +31,7 @@ stages:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        containerRegistry: $(docker_registry_connection)
         tags: |
           $(tag)
           latest
@@ -55,7 +55,7 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              dockerRegistryEndpoint: $(docker_registry_connection)
 
           - task: Kubernetes@1
             displayName: Rolling update app
