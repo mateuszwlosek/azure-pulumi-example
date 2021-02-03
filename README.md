@@ -59,44 +59,45 @@ Select `Azure Repos Git` and repository created before as the place with your co
 **Pipeline to build, push docker image and perform rolling update of demo application**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
 
-Variables:  
+Now configure Variables  
+![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
 
 Name: docker_registry_repository  
 Description: Docker registry repository path, generated while creating a kubernetes cluster  
 My value: mateuszwlosektestregistry  
 
-Name: image_name
-Description: Docker image name. You can type anything 
+Name: image_name  
+Description: Docker image name. You can type anything   
 My value: test-cluster  
 
-Name: docker_registry_connection
-Description: Docker registry connection created above
-My value: docker-registry-service-connection
+Name: docker_registry_connection  
+Description: Docker registry connection created above  
+My value: docker-registry-service-connection  
 
-Name: image_pull_secret 
-Description: Docker image pull secret name. You can type anything 
-My value: docker-registry-image-pull-secret 
+Name: image_pull_secret   
+Description: Docker image pull secret name. You can type anything   
+My value: docker-registry-image-pull-secret   
 
-Name: kubernetes_environment
-Description: Environment created above
-My value: test-environment
+Name: kubernetes_environment  
+Description: Environment created above  
+My value: test-environment  
 
-Name: kubernetes_service_endpoint
-Description: Service connection to kubernetes. Should be created automatically after creating environemnt. Look for it in Project Settings/Service Connections
-My value: test-environment-test-cluster-demo-namespace-1612386451573
+Name: kubernetes_service_endpoint  
+Description: Service connection to kubernetes. Should be created automatically after creating environemnt. Look for it in Project Settings/Service Connections  
+My value: test-environment-test-cluster-demo-namespace-1612386451573  
 
-Name: namespace
-Description: Namespace name (Have to be the same as in variables given above) 
+Name: namespace  
+Description: Namespace name (Have to be the same as in variables given above)   
 My value: demo-namespace  
 
 Save changes (Don't execute pipeline from here as it will not be possible to select required parameters.  
-Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`. 
-Rename the pipeline to: Build image, Deploy image, Perform rolling update
+Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.   
+Rename the pipeline to: Build image, Deploy image, Perform rolling update  
 
 **Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
-Now configure Variables  
-![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
+
+Variables:
 
 Name: azure_subscription  
 Description: Azure resource manager connection created above   
@@ -146,8 +147,7 @@ Name: resources_group_name
 Description: Resources group name. Generated when kubernetes cluster was created.  
 My value: test-resource-group  
 
-![image](https://user-images.githubusercontent.com/15820051/106803735-cd2d6880-6664-11eb-8a6e-5b5fc1164bba.png)  
-Save changes and run the pipeline.
+Save changes and run the pipeline.  
 Rename the pipeline to: Pulumi basic infrastructure up
 
 **Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**  
@@ -167,44 +167,44 @@ Name: demo_port
 Description: Demo application port. Type the same value as I.
 My value: 8080
 
-Name: docker_registry_repository 
-Description: Docker registry repository path. In azure go to container registries, select the one you want to use and copy `Login server` value / repository image name used in env variables above
-My value: mateuszwlosektestregistry.azurecr.io/demo
+Name: docker_registry_repository   
+Description: Docker registry repository path. In azure go to container registries, select the one you want to use and copy `Login server` value / repository image name used in env variables above  
+My value: mateuszwlosektestregistry.azurecr.io/demo  
 
-Name: image_pull_secret 
-Description: Docker image pull secret name. (Have to be the same as in variables given above) 
-My value: docker-registry-image-pull-secret 
+Name: image_pull_secret   
+Description: Docker image pull secret name. (Have to be the same as in variables given above)   
+My value: docker-registry-image-pull-secret   
 
-Name: mongodb_database 
-Description: Mongodb database name (Have to be the same as in variables given above) 
-My value: master
+Name: mongodb_database   
+Description: Mongodb database name (Have to be the same as in variables given above)   
+My value: master  
 
 Name: mongodb_username  
-Description: Mongodb username (Have to be the same as in variables given above) 
-My value: test  
+Description: Mongodb username (Have to be the same as in variables given above)   
+My value: test   
 
 Name: mongodb_password  
-Description: Mongodb password (Have to be the same as in variables given above) 
-My value: test  
+Description: Mongodb password (Have to be the same as in variables given above)   
+My value: test   
 
-Name: mongodb_host   
-Description: Mongodb service name. Type the same value as I.
-My value: mongodb
+Name: mongodb_host    
+Description: Mongodb service name. Type the same value as I.  
+My value: mongodb  
 
 Name: namespace_name  
-Description: Namespace name (Have to be the same as in variables given above) 
-My value: demo-namespace  
+Description: Namespace name (Have to be the same as in variables given above)  
+My value: demo-namespace   
 
 Name: pip_requirements_path  
 Description: Path to requirements for pip. Type the same value as I.  
-My value: pulumi/demo-app/requirements  
+My value: pulumi/demo-app/requirements   
 
-Name: PULUMI_ACCESS_TOKEN  
-Description: Pulumi token, generated after in Pulumi settings  
+Name: PULUMI_ACCESS_TOKEN   
+Description: Pulumi token, generated after in Pulumi settings   
 My value: pul-(... I won't share pulumi token)   
 
-Name: pulumi.access.token  
-Description: Same token as in the variable above (yes, two env variables are needed. I explained it above)  
+Name: pulumi.access.token   
+Description: Same token as in the variable above (yes, two env variables are needed. I explained it above)   
 My value: pul-(... I won't share pulumi token)   
 
 Name: pulumi_directory  
@@ -219,10 +219,10 @@ Name: resources_group_name
 Description: Resources group name. Generated when kubernetes cluster was created.  
 My value: test-resource-group  
 
-Save changes and run the pipeline.
-Rename the pipeline to: Pulumi demo app up
+Save changes and run the pipeline.  
+Rename the pipeline to: Pulumi demo app up  
 
-You can check the environment now in Azure UI or in CLI.
+You can check the environment now in Azure UI or in CLI.  
 
 **When anything is changed in repo, pipeline with rolling update will be executed automatically. It's an example of how to deploy changes automatically when e.g demo application in this case is changed.**  
 
