@@ -2,8 +2,6 @@
 
 ## Guide
 
-
-
 ### Azure Account
 [Create an azure account or log in into an existing one](https://azure.microsoft.com/auth/signin/?loginProvider=Microsoft&redirectUri=%2Fpl-pl%2F)
 
@@ -12,12 +10,11 @@ Go to `Subscriptions`
 ![Screenshot_20210203_194509](https://user-images.githubusercontent.com/15820051/106794511-3c9d5b00-6659-11eb-9aa3-88335a4f459d.png)  
 and add a new one, then select `Free Trial` offer and fill data as requested. 
 
-
-
 ### Pulumi
 [Create a pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
 In settings generate new access token and save it somewhere  
 ![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)
+[Install Pulumi (Optional)](https://www.pulumi.com/docs/get-started/install/)
 
 ### Setup Kubernetes cluster
 Go to `Kubernetes services` and add a new Kubernetes cluser.  
@@ -170,8 +167,8 @@ Description: Demo application port. Type the same value as I.
 My value: 8080
 
 Name: docker_registry_repository 
-Description: Docker registry repository path, generated while creating a kubernetes cluster / repository image name used in env variables above
-My value: mateuszwlosektestregistry/demo
+Description: Docker registry repository path. In azure go to container registries, select the one you want to use and copy `Login server` value / repository image name used in env variables above
+My value: mateuszwlosektestregistry.azurecr.io/demo
 
 Name: image_pull_secret 
 Description: Docker image pull secret name. (Have to be the same as in variables given above) 
@@ -223,7 +220,11 @@ My value: test-resource-group
 
 Save changes and run the pipeline.
 
-You can check the environment now in Azure UI or in CLI:  
+You can check the environment now in Azure UI or in CLI.
+
+**When anything is changed in repo, pipeline with rolling update will be executed automatically. It's an example of how to deploy changes automatically when e.g demo application in this case is changed.**  
+
+Kubectl useful commands:  
 Switch kubernetes namespace: `kubectl config set-context --current --namespace=demo-namespace` (Replace `demo-namespace` with your namespace, set in environment variables above)  
 Check kubernetes deployments: `kubectl get deployment`  
 Check kubernetes pods: `kubectl get pods`  
@@ -236,6 +237,8 @@ Test demo application:
 Get external IP: `kubectl get services`, get external IP from `nginx-ingress-ingress-nginx-controller`.  
 Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)  
 Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)  
-Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one)  
+Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one) 
 
-
+Pulumi useful commands:  
+Cancel ongoing pulumi process: `pulumi cancel`  
+In case of any errors with corrupted pulumi state: `pulumi stack export | pulumi stack import` and `pulumi refresh`  
