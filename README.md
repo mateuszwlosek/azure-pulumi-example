@@ -49,11 +49,52 @@ Go to `Project settings`
 `Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections  
 ![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)  
 ![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)  
+Go to environments and create a new one
+![image](https://user-images.githubusercontent.com/15820051/106809473-03221b00-666c-11eb-8134-509d2829f778.png)
+![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)
+![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)
 
 
 #### Pipelines
 Go to `Pipelines` and create a new one.  
 Select `Azure Repos Git` and repository created before as the place with your code. 
+
+**Pipeline to build, push docker image and perform rolling update of demo application **  
+In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
+
+Variables:  
+
+Name: docker_registry_repository 
+Description: Docker registry repository path, generated while creating a kubernetes cluster
+My value: mateuszwlosektestregistry
+
+XXX Always demo
+Name: deployment_name
+Description: Kubernetes cluster name  
+My value: test-cluster  
+
+Name: docker_registry_connection
+Description: Docker registry connection created above
+My value: docker-registry-service-connection
+
+Name: image_pull_secret 
+Description: Docker image pull secret name. You can type anything 
+My value: docker-registry-image-pull-secret 
+
+Name: kubernetes_environment
+Description: Environment created above
+My value: test-environment
+
+Name: kubernetes_service_endpoint
+Description: Service connection to kubernetes. Should be created automatically after creating environemnt. Look for it in Project Settings/Service Connections
+My value: test-environment-test-cluster-demo-namespace-1612386451573
+
+Name: namespace
+Description: Namespace name (Have to be the same as in variables given above) 
+My value: demo-namespace  
+
+Save changes (Don't execute pipeline from here as it will not be possible to select required parameters.  
+Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.  
 
 **Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
@@ -61,7 +102,7 @@ Now configure Variables
 ![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
 
 Name: azure_subscription  
-Description: XXX  
+Description: Azure resource manager connection created above   
 My value: azure-service-connection  
 
 Name: cluster_name  
@@ -109,7 +150,78 @@ Description: Resources group name. Generated when kubernetes cluster was created
 My value: test-resource-group  
 
 ![image](https://user-images.githubusercontent.com/15820051/106803735-cd2d6880-6664-11eb-8a6e-5b5fc1164bba.png)  
-Save changes and run the pipeline
+Save changes and run the pipeline.
+
+**Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**  
+In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
+
+Variables:  
+
+Name: azure_subscription  
+Description: Azure resource manager connection created above  
+My value: azure-service-connection  
+
+Name: cluster_name  
+Description: Kubernetes cluster name  
+My value: test-cluster  
+
+Name: demo_port  
+Description: Demo application port. Type the same value as I.
+My value: 8080
+
+Name: docker_registry_repository 
+Description: Docker registry repository path, generated while creating a kubernetes cluster / repository image name used in env variables above
+My value: mateuszwlosektestregistry/demo
+
+Name: image_pull_secret 
+Description: Docker image pull secret name. (Have to be the same as in variables given above) 
+My value: docker-registry-image-pull-secret 
+
+Name: mongodb_database 
+Description: Mongodb database name (Have to be the same as in variables given above) 
+My value: master
+
+Name: mongodb_username  
+Description: Mongodb username (Have to be the same as in variables given above) 
+My value: test  
+
+Name: mongodb_password  
+Description: Mongodb password (Have to be the same as in variables given above) 
+My value: test  
+
+Name: mongodb_host   
+Description: Mongodb service name. Type the same value as I.
+My value: mongodb
+
+Name: namespace_name  
+Description: Namespace name (Have to be the same as in variables given above) 
+My value: demo-namespace  
+
+Name: pip_requirements_path  
+Description: Path to requirements for pip. Type the same value as I.  
+My value: pulumi/demo-app/requirements  
+
+Name: PULUMI_ACCESS_TOKEN  
+Description: Pulumi token, generated after in Pulumi settings  
+My value: pul-(... I won't share pulumi token)   
+
+Name: pulumi.access.token  
+Description: Same token as in the variable above (yes, two env variables are needed. I explained it above)  
+My value: pul-(... I won't share pulumi token)   
+
+Name: pulumi_directory  
+Description: Directory with pulumi files. Type the same value as I  
+My value: pulumi/demo-app/  
+
+Name: pulumi_stack  
+Description: Pulumi stack name (you can type anything)  
+My value: demo-stack  
+
+Name: resources_group_name  
+Description: Resources group name. Generated when kubernetes cluster was created.  
+My value: test-resource-group  
+
+Save changes and run the pipeline.
 
 You can check the environment now in Azure UI or in CLI:  
 Switch kubernetes namespace: `kubectl config set-context --current --namespace=demo-namespace` (Replace `demo-namespace` with your namespace, set in environment variables above)  
@@ -119,4 +231,5 @@ Check kubernetes services: `kubectl get services`
 Describe a resource: `kubectl describe deployment mongodb`  
 Check pod logs: `kubectl get logs mongodb-7c9986b5c-26bdv -f` (Replace with your pod name)  
 Check yaml of a resource: `kubectl get deployment mongodb -o yaml`  
+
 
