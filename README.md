@@ -12,7 +12,7 @@ and add a new one, then select `Free Trial` offer and fill data as requested.
 
 ### Pulumi
 [Create a pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
-In settings generate new access token and save it somewhere  
+In settings generate new access token and save it somewhere.  
 ![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)
 [Install Pulumi (Optional)](https://www.pulumi.com/docs/get-started/install/)
 
@@ -35,28 +35,27 @@ Save az credentials in kubectl config: `az aks get-credentials --resource-group 
 Switch kubectl context: `kubectl config use-context test-cluster` (Replace `test-cluster` with your cluster name)
 
 ### Setup Azure DevOps
-Go to [Azure dev](https://dev.azure.com/) and create a new project  
+Go to [Azure dev](https://dev.azure.com/) and create a new project.  
 ![image](https://user-images.githubusercontent.com/15820051/106797141-876ca200-665c-11eb-8627-1557ce4900c1.png)  
-Go to `Repos` and get HTTPS (or SSH) url for the repository  
+Go to `Repos` and get HTTPS (or SSH) url for the repository.  
 ![image](https://user-images.githubusercontent.com/15820051/106797492-f6e29180-665c-11eb-90f7-6913026993b5.png)  
 Clone the repository locally, copy files from my repository and push those files.  
 ![image](https://user-images.githubusercontent.com/15820051/106797815-6789ae00-665d-11eb-987b-4ebf65f1dc31.png)  
 Go to `Project settings`  
 ![image](https://user-images.githubusercontent.com/15820051/106797943-92740200-665d-11eb-980e-36ccba314a37.png)  
-`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections   
+`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections.   
 ![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)   
-Go to environments and create a new one  
+Go to `Environments` and create a new one  
 ![image](https://user-images.githubusercontent.com/15820051/106809473-03221b00-666c-11eb-8134-509d2829f778.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)   
 
-
 #### Pipelines
-Go to `Pipelines` and create a new one.  
-Select `Azure Repos Git` and repository created before as the place with your code. 
 
-**Pipeline to build, push docker image and perform rolling update of demo application**  
+**Pipeline to build, push docker image and perform rolling update of demo application** 
+Go to Pipelines and create a new one.
+Select Azure Repos Git and repository created before as the place with your code. 
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
 
 Now configure Variables  
@@ -94,7 +93,9 @@ Save changes (Don't execute pipeline from here as it will not be possible to sel
 Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.   
 Rename the pipeline to: Build image, Deploy image, Perform rolling update  
 
-**Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**  
+**Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**
+Go to Pipelines and create a new one.
+Select Azure Repos Git and repository created before as the place with your code. 
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
 
 Variables:
@@ -150,7 +151,9 @@ My value: test-resource-group
 Save changes and run the pipeline.  
 Rename the pipeline to: Pulumi basic infrastructure up
 
-**Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**  
+**Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**
+Go to Pipelines and create a new one.
+Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
 
 Variables:  
