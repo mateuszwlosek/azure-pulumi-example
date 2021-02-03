@@ -2,6 +2,8 @@
 
 ## Guide
 
+
+
 ### Azure Account
 [Create an azure account or log in into an existing one](https://azure.microsoft.com/auth/signin/?loginProvider=Microsoft&redirectUri=%2Fpl-pl%2F)
 
@@ -9,6 +11,8 @@
 Go to `Subscriptions`  
 ![Screenshot_20210203_194509](https://user-images.githubusercontent.com/15820051/106794511-3c9d5b00-6659-11eb-9aa3-88335a4f459d.png)  
 and add a new one, then select `Free Trial` offer and fill data as requested. 
+
+
 
 ### Pulumi
 [Create a pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
@@ -23,6 +27,15 @@ If you are using a free trial account, change `node count` to 1
 All the other settings can be left as the default ones.  
 ![image](https://user-images.githubusercontent.com/15820051/106795693-ad914280-665a-11eb-9f3b-b151b17b0cf3.png)  
 ![image](https://user-images.githubusercontent.com/15820051/106796891-407eac80-665c-11eb-902a-17f8b5352be5.png)  
+
+### Kubectl and Azure
+[Install and Set Up Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+[Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt)
+Login to azure from CLI: `az login`  
+*In case of any problems, go to Azure Active Directory, copy Tenant ID and use id while logging: az login --tenant 6f643342-abc3-226g-(...)*  
+![image](https://user-images.githubusercontent.com/15820051/106805460-0070f700-6667-11eb-8611-e122a129569b.png)  
+Save az credentials in kubectl config: `az aks get-credentials --resource-group test-resource-group --name cluster-test` (Replace `test-resource-group` with your resource group and `cluster-test` with your cluster name)  
+Switch kubectl context: `kubectl config use-context test-cluster` (Replace `test-cluster` with your cluster name)
 
 ### Setup Azure DevOps
 Go to [Azure dev](https://dev.azure.com/) and create a new project  
