@@ -105,7 +105,7 @@ Clone the repository locally, copy files from my repository and push those files
 ![image](https://user-images.githubusercontent.com/15820051/106797815-6789ae00-665d-11eb-987b-4ebf65f1dc31.png)  
 Go to `Project settings`  
 ![image](https://user-images.githubusercontent.com/15820051/106797943-92740200-665d-11eb-980e-36ccba314a37.png)  
-`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager``(Service principal)` connections.   
+`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager` `(Service principal)` connections.   
 ![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)   
 Go to `Environments` and create a new one.  
