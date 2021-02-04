@@ -1,4 +1,20 @@
-# Azure + Pulumi Example
+# Azure + Azure Dev Ops Pipelines + Pulumi Example
+
+Example of [Azure AKS](https://docs.microsoft.com/en-us/azure/aks/) with [Pulumi](https://www.pulumi.com/) (in python) usage.  
+Docker images stored in [Azure container registry](https://azure.microsoft.com/en-us/services/container-registry/).  
+Used pipelines in [Azure Dev Ops](https://azure.microsoft.com/en-us/services/devops/).  
+
+Used [Helm](https://helm.sh/) charts for [mongodb](https://github.com/bitnami/charts/tree/master/bitnami/mongodb) and [ingress-nginx](https://github.com/helm/charts/tree/master/stable/nginx-ingress).  
+Includes also simple [Spring Boot](https://spring.io/projects/spring-boot) application.  
+
+## Spring Boot application
+Created very simple spring boot application to show rolling updates with Azure pipelines/kubernets and ingress usage.    
+Contains three endpoints:  
+* `GET /` - returns String "TEST" (Can be simple changed and when changes are pushed, image should be updated and new value should be returned)  
+* `GET /user/` - returns list of Users in the mongodb database  
+* `POST /user?username=(username)` - creates a user with the given username  
+
+Mongodb properties in `application.properties` are configured to use environment variables that are configured in a pipeline.  
 
 ## Guide
 
