@@ -195,19 +195,22 @@ You can check the environment now in Azure webpage or in CLI.
 
 ### Kubectl useful commands:  
 Switch kubernetes namespace: `kubectl config set-context --current --namespace=demo-namespace` (Replace `demo-namespace` with your namespace, set in environment variables above)  
+Swtich kubernetes context: `ubectl config use-context cluster-test` (Replace `demo-namespace` with your context)
 Check kubernetes deployments: `kubectl get deployment`  
 Check kubernetes pods: `kubectl get pods`  
+Check kubernetes pods from all namespaces: `kubectl get pods --all-namespaces`
 Check kubernetes services: `kubectl get services`  
 Describe a resource: `kubectl describe deployment mongodb`  
 Check pod logs: `kubectl get logs mongodb-7c9986b5c-26bdv -f` (Replace with your pod name)  
 Check yaml of a resource: `kubectl get deployment mongodb -o yaml`  
+Delete a resource: `kubectl delete deployment demo` (If another resource is depending on this resource, deletion may not work)  
 
 ### Test demo application:  
-Get external IP: `kubectl get services`, get external IP from `nginx-ingress-ingress-nginx-controller`.  
+Get external IP: `kubectl get services`, service: `nginx-ingress-ingress-nginx-controller`.  
 Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)  
 Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)  
 Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one) 
 
 ### Pulumi useful commands:  
 Cancel ongoing pulumi process: `pulumi cancel`  
-In case of any errors with corrupted pulumi state: `pulumi stack export | pulumi stack import` and `pulumi refresh`  
+**In case of any errors with corrupted pulumi state** : `pulumi cancel`, `pulumi stack export | pulumi stack import` and `pulumi refresh`  
