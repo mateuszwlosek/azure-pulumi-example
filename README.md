@@ -20,19 +20,23 @@ In settings generate new access token and save it somewhere.
 Go to `Kubernetes services` and add a new Kubernetes cluser.  
 While creating the cluster, add a new resource group while clicking `Create new`.  
 Go to the `Integrations` tab and create a new container registry with `Create new`.  
-If you are using a free trial account, change `node count` to 1
+If you are using a free trial account, change `node count` to 1.  
 All the other settings can be left as the default ones.  
 ![image](https://user-images.githubusercontent.com/15820051/106795693-ad914280-665a-11eb-9f3b-b151b17b0cf3.png)  
 ![image](https://user-images.githubusercontent.com/15820051/106796891-407eac80-665c-11eb-902a-17f8b5352be5.png)  
 
 ### Kubectl and Azure
-[Install and Set Up Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-[Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt)
+[Install and Set Up Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)  
+[Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt)  
 Login to azure from CLI: `az login`  
 *In case of any problems, go to Azure Active Directory, copy Tenant ID and use id while logging: az login --tenant 6f643342-abc3-226g-(...)*  
 ![image](https://user-images.githubusercontent.com/15820051/106805460-0070f700-6667-11eb-8611-e122a129569b.png)  
-Save az credentials in kubectl config: `az aks get-credentials --resource-group test-resource-group --name cluster-test` (Replace `test-resource-group` with your resource group and `cluster-test` with your cluster name)  
-Switch kubectl context: `kubectl config use-context test-cluster` (Replace `test-cluster` with your cluster name)
+Save az credentials in kubectl config:  
+`az aks get-credentials --resource-group test-resource-group --name cluster-test`  
+(Replace `test-resource-group` with your resource group and `cluster-test` with your cluster name)  
+  
+Switch kubectl context: `kubectl config use-context test-cluster`  
+(Replace `test-cluster` with your cluster name)
 
 ### Setup Azure DevOps
 Go to [Azure dev](https://dev.azure.com/) and create a new project.  
@@ -51,11 +55,11 @@ Go to `Environments` and create a new one
 ![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)   
 
-#### Pipelines
+### Pipelines
 
-**Pipeline to build, push docker image and perform rolling update of demo application** 
-Go to Pipelines and create a new one.
-Select Azure Repos Git and repository created before as the place with your code. 
+**Pipeline to build, push docker image and perform rolling update of demo application**  
+Go to Pipelines and create a new one.  
+Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
 
 Now configure Variables  
@@ -63,7 +67,7 @@ Now configure Variables
 
 | Name                        | Description                                                                                                                                       | Example value                                              |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| docker_registry_repository  | Docker registry repository path, generated while creating a kubernetes cluster                                                                    | mateuszwlosektestregistr                                   |
+| docker_registry_repository  | Docker registry repository path, generated while creating a kubernetes cluster                                                                    | mateuszwlosektestregistry                                   |
 | image_name                  | Docker image name. You can type anything                                                                                                          | test-cluster                                               |
 | docker_registry_connection  | Docker registry connection created above                                                                                                          | docker-registry-service-connection                         |
 | image_pull_secret           | Docker image pull secret name. Any value                                                                                             | docker-registry-image-pull-secret                          |
@@ -73,11 +77,11 @@ Now configure Variables
 
 Save changes (Don't execute pipeline from here as it will not be possible to select required parameters.  
 Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.   
-Rename the pipeline to: Build image, Deploy image, Perform rolling update  
+Rename the pipeline to: `Build image, Deploy image, Perform rolling update`  
 
 **Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**
-Go to Pipelines and create a new one.
-Select Azure Repos Git and repository created before as the place with your code. 
+Go to Pipelines and create a new one.  
+Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
 
 Variables:
@@ -97,15 +101,15 @@ Variables:
 | resources_group_name  | Resources group name. Generated when kubernetes cluster was created.                          | test-resource-group                  | 
 
 Save changes and run the pipeline.  
-Rename the pipeline to: Pulumi basic infrastructure up
+Rename the pipeline to: `Pulumi basic infrastructure up`
 
-**Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**
-Go to Pipelines and create a new one.
-Select Azure Repos Git and repository created before as the place with your code.  
+**Pipeline to deploy a demo application exposed outside (spring boot application, service, ingress)**  
+Go to Pipelines and create a new one.  
+Select Azure Repos Git and repository created before as the place with your code.   
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
 
 Variables: 
-| Name                       | Description                                                                                                                                                                            | My value                                  |
+| Name                       | Description                                                                                                                                                                            | Example value                                  |
 |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | azure_subscription         | Azure resource manager connection created above                                                                                                                                        | azure-service-connection                  |
 | cluster_name               | Kubernetes cluster name                                                                                                                                                                | test-cluster                              |
@@ -125,13 +129,13 @@ Variables:
 | resources_group_name       | Resources group name. Generated when kubernetes cluster was created                                                                                                                   | test-resource-group                       |
 
 Save changes and run the pipeline.  
-Rename the pipeline to: Pulumi demo app up  
+Rename the pipeline to: `Pulumi demo app up`  
 
-You can check the environment now in Azure UI or in CLI.  
+You can check the environment now in Azure webpage or in CLI.  
 
 **When anything is changed in repo, pipeline with rolling update will be executed automatically. It's an example of how to deploy changes automatically when e.g demo application in this case is changed.**  
 
-Kubectl useful commands:  
+### Kubectl useful commands:  
 Switch kubernetes namespace: `kubectl config set-context --current --namespace=demo-namespace` (Replace `demo-namespace` with your namespace, set in environment variables above)  
 Check kubernetes deployments: `kubectl get deployment`  
 Check kubernetes pods: `kubectl get pods`  
@@ -140,12 +144,12 @@ Describe a resource: `kubectl describe deployment mongodb`
 Check pod logs: `kubectl get logs mongodb-7c9986b5c-26bdv -f` (Replace with your pod name)  
 Check yaml of a resource: `kubectl get deployment mongodb -o yaml`  
 
-Test demo application:  
+### Test demo application:  
 Get external IP: `kubectl get services`, get external IP from `nginx-ingress-ingress-nginx-controller`.  
 Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)  
 Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)  
 Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one) 
 
-Pulumi useful commands:  
+### Pulumi useful commands:  
 Cancel ongoing pulumi process: `pulumi cancel`  
 In case of any errors with corrupted pulumi state: `pulumi stack export | pulumi stack import` and `pulumi refresh`  
