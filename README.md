@@ -32,14 +32,14 @@ demo-app:
  - ingress for the application
 
 Projects contain a lot of environment variables usage, so they can be easily configured in Azure Pipelines.  
-Used v2 of Helm package as v3 has problems with Helm hooks  
+Used v2 of Helm package as v3 has problems with Helm hooks:  
 https://github.com/pulumi/pulumi-kubernetes/issues/555
 
 ## Pipelines
 
 **Pulumi pipeline**:  
-Pipelines that executes `pulumi up`. Used for both Pulumi projects (environment variables differ)  
-I used Pulumi task and Pulumi script in a console. Pulumi script was used to create a new stack if it doesn't exist. I couldn't do that in task as the Pulumi task assumes that the stack already exists. I used a Pulumi task for `pulumi up` as Pulumi in a script has problems with environment variables. Because of that, I needed to use two different env variables that Pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by Pulumi task the other one is used by `pulumi login`)  
+Pipelines that executes `pulumi up`. Used for both Pulumi projects (environment variables differ).  
+I used Pulumi task and Pulumi script in a console. Pulumi script was used to create a new stack if it doesn't exist. I couldn't do that in task as the Pulumi task assumes that the stack already exists. I used a Pulumi task for `pulumi up` as Pulumi in a script has problems with environment variables. Because of that, I needed to use two different env variables that Pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by Pulumi task the other one is used by `pulumi login`).  
 Used AzureCLI task to log in as azureSubscription parameter did not work with Pulumi task.  
   
 `env` had to be defined for a script to use a secret env variable:  
@@ -52,7 +52,7 @@ Used AzureCLI task to log in as azureSubscription parameter did not work with Pu
 I did not use `continueOnError` as it displays a warning even that pipeline should be considered fully successful.
 
 **Docker build push rolling update pipeline**:  
-Pipeline builds a Docker image, pushes it to Docker repository, creates image secret, and performs rolling update to update current deployment with new image (using secret created in previous step)  
+Pipeline builds a Docker image, pushes it to Docker repository, creates image secret, and performs rolling update to update current deployment with new image (using secret created in previous step).  
 Pipeline is executed on any change in the repository. Thanks to that, any changes in the spring boot application are deployed instantly when the code on the master branch changes.
 
 ## Guide
@@ -108,7 +108,7 @@ Go to `Project settings`
 `Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections.   
 ![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)   
-Go to `Environments` and create a new one  
+Go to `Environments` and create a new one.  
 ![image](https://user-images.githubusercontent.com/15820051/106809473-03221b00-666c-11eb-8134-509d2829f778.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)   
@@ -137,7 +137,7 @@ Save changes (Don't execute pipeline from here as it will not be possible to sel
 Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.   
 Rename the pipeline to: `Build image, Deploy image, Perform rolling update`  
 
-**Pipeline to create a basic infrastructure (namespace, ingress service, storage, MongoDB)**
+**Pipeline to create a basic infrastructure (namespace, ingress service, storage, MongoDB)**  
 Go to Pipelines and create a new one.  
 Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
@@ -156,7 +156,7 @@ Variables:
 | pulumi.access.token   | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed) | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894  | 
 | pulumi_directory      | Directory with Pulumi files. If repositories files were not changed value has to be the same as in the example                                         | pulumi/basic/                        |
 | pulumi_stack          | Pulumi stack name. Any value                                                      | demo-stack                           |
-| resources_group_name  | Resources group name. Generated when Kubernetes cluster was created.                          | test-resource-group                  | 
+| resources_group_name  | Resources group name. Generated when Kubernetes cluster was created                          | test-resource-group                  | 
 
 Save changes and run the pipeline.  
 Rename the pipeline to: `Pulumi basic infrastructure up`
@@ -206,7 +206,7 @@ Check YAML of a resource: `kubectl get deployment mongodb -o yaml`
 Delete a resource: `kubectl delete deployment demo` (If another resource is depending on this resource, deletion may not work)  
 
 ### Test demo application:  
-Get external IP: `kubectl get services`, service: `nginx-ingress-ingress-nginx-controller`.  
+Get external IP: `kubectl get services`, service: `nginx-ingress-ingress-nginx-controller`  
 Test endpoint: `curl 'http://1.2.3.4` (replace IP with your one)  
 Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)  
 Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one) 
