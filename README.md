@@ -4,27 +4,27 @@ Example of [Azure AKS](https://docs.microsoft.com/en-us/azure/aks/) with [Pulumi
 Docker images stored in [Azure container registry](https://azure.microsoft.com/en-us/services/container-registry/).  
 Used pipelines in [Azure Dev Ops](https://azure.microsoft.com/en-us/services/devops/).  
 
-Used [Helm](https://helm.sh/) charts for [mongodb](https://github.com/bitnami/charts/tree/master/bitnami/mongodb) and [ingress-nginx](https://github.com/helm/charts/tree/master/stable/nginx-ingress).  
+Used [Helm](https://helm.sh/) charts for [mongoDB](https://github.com/bitnami/charts/tree/master/bitnami/mongodb) and [NGINX Ingress](https://github.com/helm/charts/tree/master/stable/nginx-ingress).  
 Includes also simple [Spring Boot](https://spring.io/projects/spring-boot) application.  
 
 ## Spring Boot application
 Created very simple spring boot application to show rolling updates with Azure pipelines/kubernets and ingress usage.    
 Contains three endpoints:  
 * `GET /` - returns String "TEST" (Can be simple changed and when changes are pushed, image should be updated and new value should be returned)  
-* `GET /user/` - returns list of Users in the mongodb database  
+* `GET /user/` - returns list of Users in the mongoDB database  
 * `POST /user?username=(username)` - creates a user with the given username  
 
-Mongodb properties in `application.properties` are configured to use environment variables that are configured in a pipeline.  
+MongoDB properties in `application.properties` are configured to use environment variables that are configured in a pipeline.  
 
 ## Pulumi
 Created two pulimi projects, which create following resources:  
   
 basic:
  - namespace
- - ingress resources (defined in helm) 
+ - NGINX Ingress resources (defined in Helm) 
  - storage class
- - persistent volume claim (for mongodb)
- - mongodb resources (defined in helm)  
+ - persistent volume claim (for mongoDB)
+ - mongoDB resources (defined in helm)  
  
 demo-app:
  - simple spring boot application deployment
@@ -32,15 +32,15 @@ demo-app:
  - ingress for the application
 
 Projects contain a lot of environment variables usage, so they can be easily configured in Azure Pipelines.  
-Used v2 of helm package as v3 has problems with helm hooks  
+Used v2 of Helm package as v3 has problems with Helm hooks  
 https://github.com/pulumi/pulumi-kubernetes/issues/555
 
 ## Pipelines
 
 Pulumi:  
-Pipelines that executes `pulumi up`. Used for both pulumi projects (environment variables differ)  
-I used pulumi task and pulumi script in a console. Pulumi script was used to create new stack if it doesn't exist. I couldn't do that in task as pulumi task assums that stack already exists. I used pulumi task for `pulumi up` as pulumi in console has problems with environment variables. Because of that I needed to use two different env variables that pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by pulumi task the other one is used by `pulumi login`)  
-Used AzureCLI task to login as azureSubscription parameter did not work with pulumi task.  
+Pipelines that executes `pulumi up`. Used for both Pulumi projects (environment variables differ)  
+I used Pulumi task and Pulumi script in a console. Pulumi script was used to create new stack if it doesn't exist. I couldn't do that in task as Pulumi task assums that stack already exists. I used Pulumi task for `pulumi up` as Pulumi in console has problems with environment variables. Because of that I needed to use two different env variables that Pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by Pulumi task the other one is used by `pulumi login`)  
+Used AzureCLI task to login as azureSubscription parameter did not work with Pulumi task.  
   
 `env` had to be defined for script to use a secert env variable:  
 ```
@@ -52,13 +52,13 @@ Used AzureCLI task to login as azureSubscription parameter did not work with pul
 I did not use `continueOnError` as it display warning even that pipeline should be considered fully successfull.
 
 Docker build push rolling update:
-Pipeline builds a docker image, pushes it to docker repository, creates image secret and performs rolling update to update current deployment with new image (using secret created in previous step)  
+Pipeline builds a Docker image, pushes it to Docker repository, creates image secret and performs rolling update to update current deployment with new image (using secret created in previous step)  
 Pipeline is executed on any change in the repository. Thanks to that, any changes in spring boot application are deployed instantly when the code on master branch changes.
 
 ## Guide
 
 ### Azure Account
-[Create an azure account or log in into an existing one](https://azure.microsoft.com/auth/signin/?loginProvider=Microsoft&redirectUri=%2Fpl-pl%2F)
+[Create an Azure account or log in into an existing one](https://azure.microsoft.com/auth/signin/?loginProvider=Microsoft&redirectUri=%2Fpl-pl%2F)
 
 #### How to use a free trial:
 Go to `Subscriptions`  
@@ -66,10 +66,10 @@ Go to `Subscriptions`
 and add a new one, then select `Free Trial` offer and fill data as requested. 
 
 ### Pulumi
-[Create a pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
+[Create a Pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
 In settings generate new access token and save it somewhere.  
 ![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)  
-[Add Pulumi Azure Pipeline task to azure](https://marketplace.visualstudio.com/items?itemName=pulumi.build-and-release-task)  
+[Add Pulumi Azure Pipeline task to Azure](https://marketplace.visualstudio.com/items?itemName=pulumi.build-and-release-task)  
 [Install Pulumi (Optional)](https://www.pulumi.com/docs/get-started/install/)  
 
 
@@ -85,7 +85,7 @@ All the other settings can be left as the default ones.
 ### Kubectl and Azure
 [Install and Set Up Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)  
 [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt)  
-Login to azure from CLI: `az login`  
+Login to Azure from CLI: `az login`  
 *In case of any problems, go to Azure Active Directory, copy Tenant ID and use id while logging: az login --tenant 6f643342-abc3-226g-(...)*  
 ![image](https://user-images.githubusercontent.com/15820051/106805460-0070f700-6667-11eb-8611-e122a129569b.png)  
 Save az credentials in kubectl config:  
@@ -115,7 +115,7 @@ Go to `Environments` and create a new one
 
 ### Pipelines
 
-**Pipeline to build, push docker image and perform rolling update of demo application**  
+**Pipeline to build, push Docker image and perform rolling update of demo application**  
 Go to Pipelines and create a new one.  
 Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
@@ -137,7 +137,7 @@ Save changes (Don't execute pipeline from here as it will not be possible to sel
 Go to pipelines and execute saved pipeline, in `Stages to run` select only `Build`.   
 Rename the pipeline to: `Build image, Deploy image, Perform rolling update`  
 
-**Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongodb)**
+**Pipeline to create a basic infrastructure (namespace, ingress service, storage, mongoDB)**
 Go to Pipelines and create a new one.  
 Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
@@ -154,7 +154,7 @@ Variables:
 | pip_requirements_path | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                       | pulumi/basic/requirements            |
 | PULUMI_ACCESS_TOKEN   | Pulumi token, generated after in Pulumi settings. You can keep this value secret                                               | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894 |
 | pulumi.access.token   | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed) | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894  | 
-| pulumi_directory      | Directory with pulumi files. If repositories files were not changed value has to be the same as in the example                                         | pulumi/basic/                        |
+| pulumi_directory      | Directory with Pulumi files. If repositories files were not changed value has to be the same as in the example                                         | pulumi/basic/                        |
 | pulumi_stack          | Pulumi stack name. Any value                                                      | demo-stack                           |
 | resources_group_name  | Resources group name. Generated when kubernetes cluster was created.                          | test-resource-group                  | 
 
@@ -172,13 +172,13 @@ Variables:
 | azure_subscription         | Azure resource manager connection created above                                                                                                                                        | azure-service-connection                  |
 | cluster_name               | Kubernetes cluster name                                                                                                                                                                | test-cluster                              |
 | demo_port                  | Demo application port. If application properties were not changed value has to be the same as in the example                                                                                                                                       | 8080                                      |
-| docker_registry_repository | Docker registry repository path. In azure go to container registries, select the one you want to use and copy `Login server` value / repository image name used in env variables above | mateuszwlosektestregistry.azurecr.io/demo |
+| docker_registry_repository | Docker registry repository path. In Azure go to container registries, select the one you want to use and copy `Login server` value / repository image name used in env variables above | mateuszwlosektestregistry.azurecr.io/demo |
 | image_pull_secret          | Docker image pull secret name. Have to be the same as in variables given above                                                                                                       | docker-registry-image-pull-secret         |
-| mongodb_database           | Mongodb database name Have to be the same as in variables given above                                                                                                                 | master                                    |
-| mongodb_username           | Mongodb username Have to be the same as in variables given above                                                                                                                    | test                                      |
-| mongodb_password           | Mongodb password Have to be the same as in variables given above                                                                                                                   | test                                      |
-| mongodb_host               | Mongodb service name. If pulumi files were not changed value has to be the same as in the example                                                                                                                                        | mongodb                                   |
-| namespace_name             | Namespace name. If pulumi files were not changed value has to be the same as in the example                                                                                                                      | demo-namespace                            |
+| mongodb_database           | MongoDB database name Have to be the same as in variables given above                                                                                                                 | master                                    |
+| mongodb_username           | MongoDB username Have to be the same as in variables given above                                                                                                                    | test                                      |
+| mongodb_password           | MongoDB password Have to be the same as in variables given above                                                                                                                   | test                                      |
+| mongodb_host               | MongoDB service name. If Pulumi files were not changed value has to be the same as in the example                                                                                                                                        | mongoDB                                   |
+| namespace_name             | Namespace name. If Pulumi files were not changed value has to be the same as in the example                                                                                                                      | demo-namespace                            |
 | pip_requirements_path      | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                                                                                                                | pulumi/demo-app/requirements              |
 | PULUMI_ACCESS_TOKEN        | Pulumi token, generated after in Pulumi setting. You can keep this value secret                                                                                                                                        | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
 | pulumi.access.token        | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed)                                                                                          | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
@@ -212,5 +212,5 @@ Get users endpoint: `curl 'http://1.2.3.4/user'` (replace IP with your one)
 Create users endpoint: `curl -X POST 'http://1.2.3.4/user?username=test'` (replace IP with your one) 
 
 ### Pulumi useful commands:  
-Cancel ongoing pulumi process: `pulumi cancel`  
-**In case of any errors with corrupted pulumi state** : `pulumi cancel`, `pulumi stack export | pulumi stack import` and `pulumi refresh`  
+Cancel ongoing Pulumi process: `pulumi cancel`  
+**In case of any errors with corrupted Pulumi state** : `pulumi cancel`, `pulumi stack export | pulumi stack import` and `pulumi refresh`  
