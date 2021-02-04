@@ -33,9 +33,10 @@ Login to azure from CLI: `az login`
 ![image](https://user-images.githubusercontent.com/15820051/106805460-0070f700-6667-11eb-8611-e122a129569b.png)  
 Save az credentials in kubectl config:  
 `az aks get-credentials --resource-group test-resource-group --name cluster-test`  
-(Replace `test-resource-group` with your resource group and `cluster-test` with your cluster name)  
-  
-Switch kubectl context: `kubectl config use-context test-cluster`  
+(Replace `test-resource-group` with your resource group and `cluster-test` with your cluster name)   
+   
+Switch kubectl context:  
+`kubectl config use-context test-cluster`  
 (Replace `test-cluster` with your cluster name)
 
 ### Setup Azure DevOps
