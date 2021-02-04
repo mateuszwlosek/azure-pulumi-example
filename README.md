@@ -16,6 +16,41 @@ Contains three endpoints:
 
 Mongodb properties in `application.properties` are configured to use environment variables that are configured in a pipeline.  
 
+## Pulumi
+Created two pulimi projects, which create following resources:  
+  
+basic:
+ - namespace
+ - ingress resources (defined in helm) 
+ - storage class
+ - persistent volume claim (for mongodb)
+ - mongodb resources (defined in helm)  
+ 
+demo-app:
+ - simple spring boot application deployment
+ - service for the application
+ - ingress for the application
+
+Projects contain a lot of environment variables usage, so they can be easily configured in Azure Pipelines.  
+Used v2 of helm package as v3 has problems with helm hooks  
+https://github.com/pulumi/pulumi-kubernetes/issues/555
+
+## Pipelines
+
+Pulumi:  
+Pipelines that executes `pulumi up`. Used for both pulumi projects (environment variables differ)  
+I used pulumi task and pulumi script in a console. Pulumi script was used to create new stack if it doesn't exist. I couldn't do that in task as pulumi task assums that stack already exists. I used pulumi task for `pulumi up` as pulumi in console has problems with environment variables.  
+Used AzureCLI task to login as azureSubscription parameter did not work with pulumi task.  
+  
+`env` had to be defined for script to use a secert env variable:  
+```
+  env:
+    PULUMI_ACCESS_TOKEN: $(PULUMI_ACCESS_TOKEN)
+```
+  
+`|| true` was used in `pulumi stack init` script to ignore errors.  
+I did not use `continueOnError` as it display warning even that pipeline should be considered fully successfull.
+
 ## Guide
 
 ### Azure Account
@@ -29,8 +64,10 @@ and add a new one, then select `Free Trial` offer and fill data as requested.
 ### Pulumi
 [Create a pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
 In settings generate new access token and save it somewhere.  
-![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)
-[Install Pulumi (Optional)](https://www.pulumi.com/docs/get-started/install/)
+![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)  
+[Add Pulumi Azure Pipeline task to azure](https://marketplace.visualstudio.com/items?itemName=pulumi.build-and-release-task)  
+[Install Pulumi (Optional)](https://www.pulumi.com/docs/get-started/install/)  
+
 
 ### Setup Kubernetes cluster
 Go to `Kubernetes services` and add a new Kubernetes cluser.  
