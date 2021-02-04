@@ -37,7 +37,7 @@ https://github.com/pulumi/pulumi-kubernetes/issues/555
 
 ## Pipelines
 
-Pulumi:  
+**Pulumi pipeline**:  
 Pipelines that executes `pulumi up`. Used for both Pulumi projects (environment variables differ)  
 I used Pulumi task and Pulumi script in a console. Pulumi script was used to create a new stack if it doesn't exist. I couldn't do that in task as the Pulumi task assumes that the stack already exists. I used a Pulumi task for `pulumi up` as Pulumi in a script has problems with environment variables. Because of that, I needed to use two different env variables that Pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by Pulumi task the other one is used by `pulumi login`)  
 Used AzureCLI task to log in as azureSubscription parameter did not work with Pulumi task.  
@@ -51,7 +51,7 @@ Used AzureCLI task to log in as azureSubscription parameter did not work with Pu
 `|| true` was used in `pulumi stack init` script to ignore errors.  
 I did not use `continueOnError` as it displays a warning even that pipeline should be considered fully successful.
 
-Docker build push rolling update:  
+**Docker build push rolling update pipeline**:  
 Pipeline builds a Docker image, pushes it to Docker repository, creates image secret, and performs rolling update to update current deployment with new image (using secret created in previous step)  
 Pipeline is executed on any change in the repository. Thanks to that, any changes in the spring boot application are deployed instantly when the code on the master branch changes.
 
