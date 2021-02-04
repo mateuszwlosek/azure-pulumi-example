@@ -51,7 +51,7 @@ Used AzureCLI task to log in as azureSubscription parameter did not work with Pu
 `|| true` was used in `pulumi stack init` script to ignore errors.  
 I did not use `continueOnError` as it displays a warning even that pipeline should be considered fully successful.
 
-Docker build push rolling update:
+Docker build push rolling update:  
 Pipeline builds a Docker image, pushes it to Docker repository, creates image secret, and performs rolling update to update current deployment with new image (using secret created in previous step)  
 Pipeline is executed on any change in the repository. Thanks to that, any changes in the spring boot application are deployed instantly when the code on the master branch changes.
 
