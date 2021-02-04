@@ -39,7 +39,7 @@ https://github.com/pulumi/pulumi-kubernetes/issues/555
 
 Pulumi:  
 Pipelines that executes `pulumi up`. Used for both pulumi projects (environment variables differ)  
-I used pulumi task and pulumi script in a console. Pulumi script was used to create new stack if it doesn't exist. I couldn't do that in task as pulumi task assums that stack already exists. I used pulumi task for `pulumi up` as pulumi in console has problems with environment variables.  
+I used pulumi task and pulumi script in a console. Pulumi script was used to create new stack if it doesn't exist. I couldn't do that in task as pulumi task assums that stack already exists. I used pulumi task for `pulumi up` as pulumi in console has problems with environment variables. Because of that I needed to use two different env variables that pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by pulumi task the other one is used by `pulumi login`)  
 Used AzureCLI task to login as azureSubscription parameter did not work with pulumi task.  
   
 `env` had to be defined for script to use a secert env variable:  
@@ -50,6 +50,10 @@ Used AzureCLI task to login as azureSubscription parameter did not work with pul
   
 `|| true` was used in `pulumi stack init` script to ignore errors.  
 I did not use `continueOnError` as it display warning even that pipeline should be considered fully successfull.
+
+Docker build push rolling update:
+Pipeline builds a docker image, pushes it to docker repository, creates image secret and performs rolling update to update current deployment with new image (using secret created in previous step)  
+Pipeline is executed on any change in the repository. Thanks to that, any changes in spring boot application are deployed instantly when the code on master branch changes.
 
 ## Guide
 
@@ -148,7 +152,7 @@ Variables:
 | mongodb_password      | Mongodb password. Any value                                                       | test                                 |
 | namespace_name        | Namespace name. Any value                                                         | demo-namespace                       |
 | pip_requirements_path | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                       | pulumi/basic/requirements            |
-| PULUMI_ACCESS_TOKEN   | Pulumi token, generated after in Pulumi settings                                              | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894 |
+| PULUMI_ACCESS_TOKEN   | Pulumi token, generated after in Pulumi settings. You can keep this value secret                                               | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894 |
 | pulumi.access.token   | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed) | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894  | 
 | pulumi_directory      | Directory with pulumi files. If repositories files were not changed value has to be the same as in the example                                         | pulumi/basic/                        |
 | pulumi_stack          | Pulumi stack name. Any value                                                      | demo-stack                           |
@@ -176,7 +180,7 @@ Variables:
 | mongodb_host               | Mongodb service name. If pulumi files were not changed value has to be the same as in the example                                                                                                                                        | mongodb                                   |
 | namespace_name             | Namespace name. If pulumi files were not changed value has to be the same as in the example                                                                                                                      | demo-namespace                            |
 | pip_requirements_path      | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                                                                                                                | pulumi/demo-app/requirements              |
-| PULUMI_ACCESS_TOKEN        | Pulumi token, generated after in Pulumi setting                                                                                                                                        | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
+| PULUMI_ACCESS_TOKEN        | Pulumi token, generated after in Pulumi setting. You can keep this value secret                                                                                                                                        | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
 | pulumi.access.token        | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed)                                                                                          | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
 | pulumi_directory           | Directory with pulumi files. Any value                                                                                                                                  | pulumi/demo-app/                          |
 | pulumi_stack               | Pulumi stack name. Any value                                                                                                                                               | demo-stack                                |
