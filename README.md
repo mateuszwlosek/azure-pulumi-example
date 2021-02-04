@@ -61,12 +61,12 @@ In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` sel
 Now configure Variables  
 ![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
 
-| Name                        | Description                                                                                                                                       | My value                                                   |
+| Name                        | Description                                                                                                                                       | Example value                                              |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
 | docker_registry_repository  | Docker registry repository path, generated while creating a kubernetes cluster                                                                    | mateuszwlosektestregistr                                   |
 | image_name                  | Docker image name. You can type anything                                                                                                          | test-cluster                                               |
 | docker_registry_connection  | Docker registry connection created above                                                                                                          | docker-registry-service-connection                         |
-| image_pull_secret           | Docker image pull secret name. You can type anything                                                                                              | docker-registry-image-pull-secret                          |
+| image_pull_secret           | Docker image pull secret name. Any value                                                                                             | docker-registry-image-pull-secret                          |
 | kubernetes_environment      | Environment created above                                                                                                                         | test-environment                                           |
 | kubernetes_service_endpoint | Service connection to kubernetes. Should be created automatically after creating environemnt. Look for it in Project Settings/Service Connections | test-environment-test-cluster-demo-namespace-1612386451573 |
 | namespace                   | Namespace name                                                                                                                                    | demo-namespace                                             |
@@ -81,19 +81,19 @@ Select Azure Repos Git and repository created before as the place with your code
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/pulumi-pipeline.yml`.  
 
 Variables:
-| Name                  | Description                                                                                   | My value                             |
+| Name                  | Description                                                                                   | Example value                             |
 |-----------------------|-----------------------------------------------------------------------------------------------|--------------------------------------|
 | azure_subscription    | Azure resource manager connection created above                                               | azure-service-connection             |
 | cluster_name          | Kubernetes cluster name                                                                       | test-cluster                         |
-| mongodb_database      | Mongodb database name. You can type anything                                                  | master                               |
-| mongodb_username      | Mongodb username. You can type anything                                                       | test                                 |
-| mongodb_password      | Mongodb password. You can type anything                                                       | test                                 |
-| namespace_name        | Namespace name. You can type anything                                                         | demo-namespace                       |
-| pip_requirements_path | Path to requirements for pip. Type the same value as I.                                       | pulumi/basic/requirements            |
-| PULUMI_ACCESS_TOKEN   | Pulumi token, generated after in Pulumi settings                                              | pul-(... I won't share pulumi token) |
-| pulumi.access.token   | Same token as in the variable above (yes, two env variables are needed. I explained it above) | pul-(... I won't share pulumi token  |
-| pulumi_directory      | Directory with pulumi files. Type the same value as I                                         | pulumi/basic/                        |
-| pulumi_stack          | Pulumi stack name. You can type anything                                                      | demo-stack                           |
+| mongodb_database      | Mongodb database name. Any value                                                  | master                               |
+| mongodb_username      | Mongodb username. Any value                                                       | test                                 |
+| mongodb_password      | Mongodb password. Any value                                                       | test                                 |
+| namespace_name        | Namespace name. Any value                                                         | demo-namespace                       |
+| pip_requirements_path | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                       | pulumi/basic/requirements            |
+| PULUMI_ACCESS_TOKEN   | Pulumi token, generated after in Pulumi settings                                              | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894 |
+| pulumi.access.token   | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed) | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894  | 
+| pulumi_directory      | Directory with pulumi files. If repositories files were not changed value has to be the same as in the example                                         | pulumi/basic/                        |
+| pulumi_stack          | Pulumi stack name. Any value                                                      | demo-stack                           |
 | resources_group_name  | Resources group name. Generated when kubernetes cluster was created.                          | test-resource-group                  | 
 
 Save changes and run the pipeline.  
@@ -109,20 +109,20 @@ Variables:
 |----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------|
 | azure_subscription         | Azure resource manager connection created above                                                                                                                                        | azure-service-connection                  |
 | cluster_name               | Kubernetes cluster name                                                                                                                                                                | test-cluster                              |
-| demo_port                  | Demo application port. Type the same value as I.                                                                                                                                       | 8080                                      |
+| demo_port                  | Demo application port. If application properties were not changed value has to be the same as in the example                                                                                                                                       | 8080                                      |
 | docker_registry_repository | Docker registry repository path. In azure go to container registries, select the one you want to use and copy `Login server` value / repository image name used in env variables above | mateuszwlosektestregistry.azurecr.io/demo |
-| image_pull_secret          | Docker image pull secret name. (Have to be the same as in variables given above)                                                                                                       | docker-registry-image-pull-secret         |
-| mongodb_database           | Mongodb database name (Have to be the same as in variables given above                                                                                                                 | master                                    |
-| mongodb_username           | Mongodb username (Have to be the same as in variables given above)                                                                                                                     | test                                      |
-| mongodb_password           | Mongodb password (Have to be the same as in variables given above)                                                                                                                     | test                                      |
-| mongodb_host               | Mongodb service name. Type the same value as I.                                                                                                                                        | mongodb                                   |
-| namespace_name             | Namespace name (Have to be the same as in variables given above)                                                                                                                       | demo-namespace                            |
-| pip_requirements_path      | Path to requirements for pip. Type the same value as I.                                                                                                                                | pulumi/demo-app/requirements              |
-| PULUMI_ACCESS_TOKEN        | Pulumi token, generated after in Pulumi setting                                                                                                                                        | pul-(... I won't share pulumi token)      |
-| pulumi.access.token        | Same token as in the variable above (yes, two env variables are needed. I explained it above)                                                                                          | pul-(... I won't share pulumi token)      |
-| pulumi_directory           | Directory with pulumi files. Type the same value as I                                                                                                                                  | pulumi/demo-app/                          |
-| pulumi_stack               | Pulumi stack name. You can type anything                                                                                                                                               | demo-stack                                |
-| resources_group_name       | Resources group name. Generated when kubernetes cluster was created.                                                                                                                   | test-resource-group                       |
+| image_pull_secret          | Docker image pull secret name. Have to be the same as in variables given above                                                                                                       | docker-registry-image-pull-secret         |
+| mongodb_database           | Mongodb database name Have to be the same as in variables given above                                                                                                                 | master                                    |
+| mongodb_username           | Mongodb username Have to be the same as in variables given above                                                                                                                    | test                                      |
+| mongodb_password           | Mongodb password Have to be the same as in variables given above                                                                                                                   | test                                      |
+| mongodb_host               | Mongodb service name. If pulumi files were not changed value has to be the same as in the example                                                                                                                                        | mongodb                                   |
+| namespace_name             | Namespace name. If pulumi files were not changed value has to be the same as in the example                                                                                                                      | demo-namespace                            |
+| pip_requirements_path      | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                                                                                                                | pulumi/demo-app/requirements              |
+| PULUMI_ACCESS_TOKEN        | Pulumi token, generated after in Pulumi setting                                                                                                                                        | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
+| pulumi.access.token        | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed)                                                                                          | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
+| pulumi_directory           | Directory with pulumi files. Any value                                                                                                                                  | pulumi/demo-app/                          |
+| pulumi_stack               | Pulumi stack name. Any value                                                                                                                                               | demo-stack                                |
+| resources_group_name       | Resources group name. Generated when kubernetes cluster was created                                                                                                                   | test-resource-group                       |
 
 Save changes and run the pipeline.  
 Rename the pipeline to: Pulumi demo app up  
