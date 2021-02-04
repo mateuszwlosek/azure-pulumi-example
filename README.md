@@ -4,7 +4,7 @@ Example of [Azure AKS](https://docs.microsoft.com/en-us/azure/aks/) with [Pulumi
 Docker images stored in [Azure container registry](https://azure.microsoft.com/en-us/services/container-registry/).  
 Used pipelines in [Azure Dev Ops](https://azure.microsoft.com/en-us/services/devops/).  
 
-Used [Helm](https://helm.sh/) charts for [mongoDB](https://github.com/bitnami/charts/tree/master/bitnami/mongodb) and [NGINX Ingress](https://github.com/helm/charts/tree/master/stable/nginx-ingress).  
+Used [Helm](https://helm.sh/) charts for [MongoDB](https://github.com/bitnami/charts/tree/master/bitnami/mongodb) and [NGINX Ingress](https://github.com/helm/charts/tree/master/stable/nginx-ingress).  
 Includes also a simple [Spring Boot](https://spring.io/projects/spring-boot) application.  
 
 ## Spring Boot application
