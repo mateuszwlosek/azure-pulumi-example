@@ -39,8 +39,8 @@ https://github.com/pulumi/pulumi-kubernetes/issues/555
 
 **Pulumi pipeline**:  
 Pipelines that executes `pulumi up`. Used for both Pulumi projects (environment variables differ).  
-I used Pulumi task and Pulumi script in a console. Pulumi script was used to create a new stack if it doesn't exist. I couldn't do that in task as the Pulumi task assumes that the stack already exists. I used a Pulumi task for `pulumi up` as Pulumi in a script has problems with environment variables. Because of that, I needed to use two different env variables that Pulumi needs for authentication (PULUMI_ACCESS_TOKEN and pulumi.access.token. One is used by Pulumi task the other one is used by `pulumi login`).  
-Used AzureCLI task to log in as azureSubscription parameter did not work with Pulumi task.  
+I used Pulumi task and Pulumi script in a console. Pulumi script was used to create a new stack if it doesn't exist. I couldn't do that in task as the Pulumi task assumes that the stack already exists. I used a Pulumi task for `pulumi up` as Pulumi in a script has problems with environment variables. Because of that, I needed to use two different env variables that Pulumi needs for authentication (`PULUMI_ACCESS_TOKEN` and `pulumi.access.token`. One is used by Pulumi task the other one is used by `pulumi login`).  
+Used AzureCLI task to log in as `azureSubscription` parameter did not work with Pulumi task.  
   
 `env` had to be defined for a script to use a secret env variable:  
 ```
@@ -105,7 +105,7 @@ Clone the repository locally, copy files from my repository and push those files
 ![image](https://user-images.githubusercontent.com/15820051/106797815-6789ae00-665d-11eb-987b-4ebf65f1dc31.png)  
 Go to `Project settings`  
 ![image](https://user-images.githubusercontent.com/15820051/106797943-92740200-665d-11eb-980e-36ccba314a37.png)  
-`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager`(Service principal) connections.   
+`Service connections` in `Pipelines`, create a `Docker Registry` and `Azure resource manager``(Service principal)` connections.   
 ![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)   
 Go to `Environments` and create a new one.  
@@ -153,7 +153,7 @@ Variables:
 | namespace_name        | Namespace name. Any value                                                         | demo-namespace                       |
 | pip_requirements_path | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                       | pulumi/basic/requirements            |
 | PULUMI_ACCESS_TOKEN   | Pulumi token, generated after in Pulumi settings. You can keep this value secret                                               | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894 |
-| pulumi.access.token   | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed) | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894  | 
+| pulumi.access.token   | Same token as in `PULUMI_ACCESS_TOKEN` (Two env variables are needed) | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894  | 
 | pulumi_directory      | Directory with Pulumi files. If repositories files were not changed value has to be the same as in the example                                         | pulumi/basic/                        |
 | pulumi_stack          | Pulumi stack name. Any value                                                      | demo-stack                           |
 | resources_group_name  | Resources group name. Generated when Kubernetes cluster was created                          | test-resource-group                  | 
@@ -181,7 +181,7 @@ Variables:
 | namespace_name             | Namespace name. If Pulumi files were not changed value has to be the same as in the example                                                                                                                      | demo-namespace                            |
 | pip_requirements_path      | Path to requirements for pip. If repositories files were not changed value has to be the same as in the example                                                                                                                                | pulumi/demo-app/requirements              |
 | PULUMI_ACCESS_TOKEN        | Pulumi token, generated after in Pulumi setting. You can keep this value secret                                                                                                                                        | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
-| pulumi.access.token        | Same token as in PULUMI_ACCESS_TOKEN (Two env variables are needed)                                                                                          | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
+| pulumi.access.token        | Same token as in `PULUMI_ACCESS_TOKEN` (Two env variables are needed)                                                                                          | pul-8e8kcaj95h86g10dec4dx1f7w18s20fb2ga66894      |
 | pulumi_directory           | Directory with pulumi files. Any value                                                                                                                                  | pulumi/demo-app/                          |
 | pulumi_stack               | Pulumi stack name. Any value                                                                                                                                               | demo-stack                                |
 | resources_group_name       | Resources group name. Generated when Kubernetes cluster was created                                                                                                                   | test-resource-group                       |
