@@ -55,6 +55,7 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(docker_registry_connection)
+              kubernetesServiceConnection: '$(kubernetes_service_endpoint)'
 
           - task: Kubernetes@1
             displayName: Rolling update app
@@ -63,6 +64,6 @@ stages:
               kubernetesServiceEndpoint: '$(kubernetes_service_endpoint)'
               namespace: '$(namespace)'
               command: 'set'
-              arguments: 'image deployments/$(deployment_name) $(deployment_name)=$(container_registry)/$(deployment_name):$(tag)'
+              arguments: 'image deployments/demo demo=$(container_registry)/$(image_name):$(tag)'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Azure Container Registry'
