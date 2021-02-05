@@ -68,7 +68,6 @@ and add a new one, then select `Free Trial` offer and fill data as requested.
 ### Pulumi
 [Create a Pulumi account or log in into an existing one](https://app.pulumi.com/signin)  
 In settings generate a new access token and save it somewhere.  
-![image](https://user-images.githubusercontent.com/15820051/106800741-2a271f80-6661-11eb-837b-6b4012c596a8.png)  
 [Add Pulumi Azure Pipeline task to Azure](https://marketplace.visualstudio.com/items?itemName=pulumi.build-and-release-task)  
 [Install Pulumi (Optional)](https://www.pulumi.com/docs/get-started/install/)  
 
@@ -98,9 +97,7 @@ Switch kubectl context:
 
 ### Setup Azure DevOps
 Go to [Azure dev](https://dev.azure.com/) and create a new project.  
-![image](https://user-images.githubusercontent.com/15820051/106797141-876ca200-665c-11eb-8627-1557ce4900c1.png)  
 Go to `Repos` and get HTTPS (or SSH) URL for the repository.  
-![image](https://user-images.githubusercontent.com/15820051/106797492-f6e29180-665c-11eb-90f7-6913026993b5.png)  
 Clone the repository locally, copy files from my repository and push those files.  
 ![image](https://user-images.githubusercontent.com/15820051/106797815-6789ae00-665d-11eb-987b-4ebf65f1dc31.png)  
 Go to `Project settings`  
@@ -109,7 +106,6 @@ Go to `Project settings`
 ![image](https://user-images.githubusercontent.com/15820051/106798185-f0084e80-665d-11eb-9743-76457d1475ba.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106799610-bfc1af80-665f-11eb-8400-59283287e720.png)   
 Go to `Environments` and create a new one.  
-![image](https://user-images.githubusercontent.com/15820051/106809473-03221b00-666c-11eb-8134-509d2829f778.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809535-1634eb00-666c-11eb-90c4-454c1beea9d1.png)   
 ![image](https://user-images.githubusercontent.com/15820051/106809612-2e0c6f00-666c-11eb-97b9-11980bb403f4.png)   
 
@@ -120,8 +116,7 @@ Go to Pipelines and create a new one.
 Select Azure Repos Git and repository created before as the place with your code.  
 In `Configure` step select `Existing Azure Pipeline YAML file` and in `path` select: `/pipelines/docker-build-push-rolling-update.yml`.  
 
-Now configure Variables  
-![image](https://user-images.githubusercontent.com/15820051/106798640-89cffb80-665e-11eb-9680-1b57e3919ed0.png)  
+Variables:
 
 | Name                        | Description                                                                                                                                       | Example value                                              |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
